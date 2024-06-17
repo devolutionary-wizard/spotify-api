@@ -18,14 +18,15 @@ type TokenResponse struct {
 	ExpiresIn   int    `json:"expires_in"`
 }
 
-func GetToken(clientID, clientSecret string) *TokenResponse {
+func GetToken() *TokenResponse {
+	log.Println("Getting token")
 	envConfig := env.LoadEnvConfig()
 	urlStr := envConfig.SpotifyAccountBaseURL + "/api/token"
 
 	data := url.Values{}
 	data.Set("grant_type", "client_credentials")
-	data.Set("client_id", clientID)
-	data.Set("client_secret", clientSecret)
+	data.Set("client_id", envConfig.SpotifyClientID)
+	data.Set("client_secret", envConfig.SpotifyClientSecret)
 
 	req, err := http.NewRequest("POST", urlStr, strings.NewReader(data.Encode()))
 	if err != nil {
