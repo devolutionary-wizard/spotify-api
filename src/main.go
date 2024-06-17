@@ -2,8 +2,8 @@ package main
 
 import (
 	"log"
-	apirequest "spotify-api/src/api-request"
 	env "spotify-api/src/config"
+	album "spotify-api/src/service/album"
 )
 
 func main() {
@@ -11,5 +11,10 @@ func main() {
 
 	log.Printf("Spotify Client ID: %s", envConfig.SpotifyClientID)
 
-	apirequest.MakeRequest("GET", "https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTy", "")
+	response, err := album.GetData("2cWBwpqMsDJC1ZUwz813lo")
+	if err != nil {
+		log.Fatalf("failed to get album data: %v", err)
+	}
+
+	log.Fatal("Album: ", response)
 }
